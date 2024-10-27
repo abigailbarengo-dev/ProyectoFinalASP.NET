@@ -1,4 +1,5 @@
-﻿namespace ProyectoFinalLab.Models
+﻿
+namespace ProyectoFinalLab.Models
 {
     public class Mascota
     {
@@ -10,9 +11,6 @@
 
 
         public virtual ICollection<Cliente> Clientes { get; set; }
-
-
-
 
     }
 }

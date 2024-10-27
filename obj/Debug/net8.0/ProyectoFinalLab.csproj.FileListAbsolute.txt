@@ -256,3 +256,4 @@ C:\Users\Usuario\Desktop\ProyectoFinalLab4\ProyectoFinalLab\bin\Debug\net8.0\run
 C:\Users\Usuario\Desktop\ProyectoFinalLab4\ProyectoFinalLab\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 C:\Users\Usuario\Desktop\ProyectoFinalLab4\ProyectoFinalLab\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\Usuario\Desktop\ProyectoFinalLab4\ProyectoFinalLab\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
+C:\Users\Usuario\Desktop\ProyectoFinalLab4\ProyectoFinalLab\obj\Debug\net8.0\ProyectoFinalLab.sourcelink.json
