@@ -20,9 +20,17 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Citas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string buscar)
         {
-            return View(await _context.Cita.ToListAsync());
+            var cita = from citas in _context.Cita select citas;
+
+            if (!String.IsNullOrEmpty(buscar))
+            {
+                cita = cita.Where(s => s.Estado!.Contains(buscar));
+            }
+
+
+            return View(await cita.ToListAsync());
         }
 
         // GET: Citas/Details/5
@@ -56,7 +64,7 @@ namespace ProyectoFinalLab.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Fecha,Hora,Motivo,Estado")] Cita cita)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(cita);
                 await _context.SaveChangesAsync();

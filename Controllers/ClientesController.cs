@@ -20,9 +20,17 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Clientes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string buscar)
         {
-            return View(await _context.Clientes.ToListAsync());
+            var clientes = from cliente in _context.Clientes select cliente;
+
+            if (!String.IsNullOrEmpty(buscar))
+            {
+                clientes = clientes.Where(s => s.Nombre!.Contains(buscar));
+            }
+
+
+            return View(await clientes.ToListAsync());
         }
 
         // GET: Clientes/Details/5
@@ -56,7 +64,7 @@ namespace ProyectoFinalLab.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Telefono,Mail,Direccion")] Cliente cliente)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();

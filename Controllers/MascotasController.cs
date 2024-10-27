@@ -20,10 +20,19 @@ namespace ProyectoFinalLab.Controllers
             _context = context;
         }
 
-        // GET: Mascotas
-        public async Task<IActionResult> Index()
+        // GET: Mascotas        // CAMBIOS EN INDEX MASCOTAS PARA FILTRO DE BUSQUEDA
+        public async Task<IActionResult> Index(string buscar)
         {
-            return View(await _context.Mascotas.ToListAsync());
+            var mascotas = from mascota in _context.Mascotas select mascota;
+
+            if(!String.IsNullOrEmpty(buscar))
+            {
+                mascotas = mascotas.Where(s => s.Nombre!.Contains(buscar));
+            }
+
+
+
+            return View(await mascotas.ToListAsync());
         }
 
         // GET: Mascotas/Details/5
@@ -57,7 +66,7 @@ namespace ProyectoFinalLab.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Especie,Raza,FechaNacimiento")] Mascota mascota)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(mascota);
                 await _context.SaveChangesAsync();
