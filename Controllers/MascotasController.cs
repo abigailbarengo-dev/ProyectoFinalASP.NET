@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ContosoUniversity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinalLab.Models;
 using ProyectoFinalLab.Servicios;
+using X.PagedList.Extensions;
 
 namespace ProyectoFinalLab.Controllers
 {
@@ -21,8 +21,11 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Mascotas        // CAMBIOS EN INDEX MASCOTAS PARA FILTRO DE BUSQUEDA
-        public async Task<IActionResult> Index(string buscar)
+        public IActionResult Index(string buscar, int? page)
         {
+            int pageNumber = page ?? 1;
+            int pageSize = 5;
+
             var mascotas = from mascota in _context.Mascotas select mascota;
 
             if(!String.IsNullOrEmpty(buscar))
@@ -30,9 +33,9 @@ namespace ProyectoFinalLab.Controllers
                 mascotas = mascotas.Where(s => s.Nombre!.Contains(buscar));
             }
 
+            var mascotasPaginadas = mascotas.OrderByDescending(s => s.Id).ToPagedList(pageNumber, pageSize);
 
-
-            return View(await mascotas.ToListAsync());
+            return View(mascotasPaginadas);
         }
 
         // GET: Mascotas/Details/5

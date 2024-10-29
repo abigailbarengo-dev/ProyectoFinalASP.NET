@@ -13,7 +13,7 @@
 
 
         public virtual ICollection<Mascota> Mascotas { get; set; }  
-        public virtual ICollection<Veterinario> Veterinario { get; set; }
+        public virtual IEnumerable<Veterinario> Veterinario { get; set; }
         public virtual ICollection<Cliente> Clientes { get; set; }
 
 

@@ -1,0 +1,30 @@
+﻿@model ProyectoFinalLab.Models.Veterinario
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Detalles de profesional</h1>
+
+<div>
+    <h4>Veterinario</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Especialidad)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Especialidad)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Modificar</a> |
+    <a asp-action="Index">Volver a lista</a>
+</div>

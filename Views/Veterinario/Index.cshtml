@@ -1,0 +1,57 @@
+﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<ProyectoFinalLab.Models.Veterinario>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="my-4 text-center">Profesionales Veterinarios</h1>
+
+<div class="d-flex justify-content-between mb-4">
+    <a asp-action="Create" class="btn btn-primary">Ingresar nuevo doctor veterinario</a>
+</div>
+
+<form asp-controller="Veterinario" asp-action="Index" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="buscar" class="form-control" placeholder="Buscar veterinario..." />
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-dark">Buscar</button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Especialidad
+            </th>
+            <th class="text-center"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Especialidad)
+                </td>
+                <td class="text-center">
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning mx-1">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info mx-1">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger mx-1">Borrar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-center mt-4">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, buscar = ViewBag.buscar }))
+</div>

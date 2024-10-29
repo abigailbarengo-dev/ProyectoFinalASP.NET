@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProyectoFinalLab.Models.Mascota>
+﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<ProyectoFinalLab.Models.Mascota>
 
 @{
     ViewData["Title"] = "Index";
@@ -21,13 +22,13 @@
 <table class="table table-striped table-hover">
     <thead class="table-dark">
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
-            <th>@Html.DisplayNameFor(model => model.Especie)</th>
-            <th>@Html.DisplayNameFor(model => model.Raza)</th>
+            <th>Nombre</th>
+            <th>Especie</th>
+            <th>Raza</th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" class="text-light">@Html.DisplayNameFor(model => model.FechaNacimiento)</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" class="text-light">FechaNacimiento</a>
             </th>
-            <th>Acciones</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -47,3 +48,9 @@
         }
     </tbody>
 </table>
+
+<!-- renderizamos controles de paginacion -->
+
+<div class="pagination-container" >
+    @Html.PagedListPager(Model, page => Url.Action("Index", new {page, buscar = ViewBag.buscar}))
+</div>

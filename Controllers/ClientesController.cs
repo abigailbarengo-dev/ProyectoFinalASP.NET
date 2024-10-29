@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinalLab.Models;
 using ProyectoFinalLab.Servicios;
+using X.PagedList.Extensions;
 
 namespace ProyectoFinalLab.Controllers
 {
@@ -20,8 +21,11 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Clientes
-        public async Task<IActionResult> Index(string buscar)
+        public IActionResult Index(string buscar, int? page)
         {
+            int pageNumber = page ?? 1;
+            int pageSize = 5;
+
             var clientes = from cliente in _context.Clientes select cliente;
 
             if (!String.IsNullOrEmpty(buscar))
@@ -29,8 +33,9 @@ namespace ProyectoFinalLab.Controllers
                 clientes = clientes.Where(s => s.Nombre!.Contains(buscar));
             }
 
+            var clientesPaginados = clientes.OrderByDescending(s => s.Id).ToPagedList(pageNumber, pageSize);
 
-            return View(await clientes.ToListAsync());
+            return View(clientesPaginados);
         }
 
         // GET: Clientes/Details/5

@@ -11,34 +11,34 @@ using X.PagedList.Extensions;
 
 namespace ProyectoFinalLab.Controllers
 {
-    public class CitasController : Controller
+    public class VeterinarioController : Controller
     {
         private readonly ApplicationContext _context;
 
-        public CitasController(ApplicationContext context)
+        public VeterinarioController(ApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: Citas
+        // GET: Veterinario
         public IActionResult Index(string buscar, int? page)
         {
             int pageNumber = page ?? 1;
             int pageSize = 5;
 
-            var turno = from turnos in _context.Cita select turnos;
+            var vet = from vete in _context.Veterinario select vete;
 
             if (!String.IsNullOrEmpty(buscar))
             {
-                turno = turno.Where(s => s.Estado!.Contains(buscar));
+                vet = vet.Where(s => s.Nombre!.Contains(buscar));
             }
 
-            var turnosPaginados = turno.OrderByDescending(s => s.Id).ToPagedList(pageNumber, pageSize);
+            var vetesPaginados = vet.OrderByDescending(s => s.Id).ToPagedList(pageNumber, pageSize);
 
-            return View(turnosPaginados);
+            return View(vetesPaginados);
         }
 
-        // GET: Citas/Details/5
+        // GET: Veterinario/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,39 +46,39 @@ namespace ProyectoFinalLab.Controllers
                 return NotFound();
             }
 
-            var cita = await _context.Cita
+            var veterinario = await _context.Veterinario
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cita == null)
+            if (veterinario == null)
             {
                 return NotFound();
             }
 
-            return View(cita);
+            return View(veterinario);
         }
 
-        // GET: Citas/Create
+        // GET: Veterinario/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Citas/Create
+        // POST: Veterinario/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Fecha,Hora,Motivo,Estado")] Cita cita)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Especialidad")] Veterinario veterinario)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                _context.Add(cita);
+                _context.Add(veterinario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(cita);
+            return View(veterinario);
         }
 
-        // GET: Citas/Edit/5
+        // GET: Veterinario/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,22 +86,22 @@ namespace ProyectoFinalLab.Controllers
                 return NotFound();
             }
 
-            var cita = await _context.Cita.FindAsync(id);
-            if (cita == null)
+            var veterinario = await _context.Veterinario.FindAsync(id);
+            if (veterinario == null)
             {
                 return NotFound();
             }
-            return View(cita);
+            return View(veterinario);
         }
 
-        // POST: Citas/Edit/5
+        // POST: Veterinario/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,Hora,Motivo,Estado")] Cita cita)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Especialidad")] Veterinario veterinario)
         {
-            if (id != cita.Id)
+            if (id != veterinario.Id)
             {
                 return NotFound();
             }
@@ -110,12 +110,12 @@ namespace ProyectoFinalLab.Controllers
             {
                 try
                 {
-                    _context.Update(cita);
+                    _context.Update(veterinario);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CitaExists(cita.Id))
+                    if (!VeterinarioExists(veterinario.Id))
                     {
                         return NotFound();
                     }
@@ -126,10 +126,10 @@ namespace ProyectoFinalLab.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(cita);
+            return View(veterinario);
         }
 
-        // GET: Citas/Delete/5
+        // GET: Veterinario/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,34 +137,34 @@ namespace ProyectoFinalLab.Controllers
                 return NotFound();
             }
 
-            var cita = await _context.Cita
+            var veterinario = await _context.Veterinario
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (cita == null)
+            if (veterinario == null)
             {
                 return NotFound();
             }
 
-            return View(cita);
+            return View(veterinario);
         }
 
-        // POST: Citas/Delete/5
+        // POST: Veterinario/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cita = await _context.Cita.FindAsync(id);
-            if (cita != null)
+            var veterinario = await _context.Veterinario.FindAsync(id);
+            if (veterinario != null)
             {
-                _context.Cita.Remove(cita);
+                _context.Veterinario.Remove(veterinario);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CitaExists(int id)
+        private bool VeterinarioExists(int id)
         {
-            return _context.Cita.Any(e => e.Id == id);
+            return _context.Veterinario.Any(e => e.Id == id);
         }
     }
 }
