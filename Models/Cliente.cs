@@ -12,9 +12,9 @@ namespace ProyectoFinalLab.Models
         public string Direccion { get; set; }
 
 
-        public virtual ICollection<Mascota> Mascotas { get; set; }
+        public virtual ICollection<Mascota>? Mascotas { get; set; }
 
-        public virtual ICollection<Cita> Citas { get; set; }
+        public virtual ICollection<Cita>? Citas { get; set; }
 
 
     }

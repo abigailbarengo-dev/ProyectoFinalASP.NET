@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinalLab.Models;
-using ProyectoFinalLab.Servicios;
 using X.PagedList.Extensions;
+using System.Data;
+using System.IO;
+using ExcelDataReader;
+using Microsoft.AspNetCore.Http;
+using ProyectoFinalLab.Data;
 
 namespace ProyectoFinalLab.Controllers
 {
@@ -20,13 +25,15 @@ namespace ProyectoFinalLab.Controllers
             _context = context;
         }
 
-        // GET: Citas
-        public IActionResult Index(string buscar, int? page)
+       
+
+    // GET: Citas
+    public IActionResult Index(string buscar, int? page)
         {
             int pageNumber = page ?? 1;
             int pageSize = 5;
 
-            var turno = from turnos in _context.Cita select turnos;
+            var turno = from citas in _context.Cita select citas;
 
             if (!String.IsNullOrEmpty(buscar))
             {

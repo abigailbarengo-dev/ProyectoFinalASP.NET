@@ -8,13 +8,13 @@
         public string Motivo { get; set; }
         public string Estado { get; set; }
 
-        //public Cliente Cliente { get; set; }??? se relaciona asi?
         public string NombreVet {  get; set; }
 
 
         public virtual ICollection<Mascota> Mascotas { get; set; }  
-        public virtual IEnumerable<Veterinario> Veterinario { get; set; }
-        public virtual ICollection<Cliente> Clientes { get; set; }
+        public virtual ICollection<Veterinario> Veterinario { get; set; }
+        public virtual Cliente Cliente { get; set; }
+        public int ClienteId { get; set; }
 
 
 

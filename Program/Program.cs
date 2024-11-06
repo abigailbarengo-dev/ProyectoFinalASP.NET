@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using ProyectoFinalLab.Servicios;
+using ProyectoFinalLab.Data;
+using Microsoft.AspNetCore.Identity;
+using ProyectoFinalLab.Areas.Identity.Data;
 
-namespace ProyectoFinalLab
+namespace ProyectoFinalLab.Program
 {
     public class Program
     {
@@ -10,10 +12,10 @@ namespace ProyectoFinalLab
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();      
-            
-            
-            
+            builder.Services.AddControllersWithViews();
+
+
+
             // "DefaultConnection" esta en el json
 
             //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -26,7 +28,9 @@ namespace ProyectoFinalLab
 
             });
 
-            var app = builder.Build();
+            builder.Services.AddDefaultIdentity<ProyectoFinalLabUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ProyectoFinalLabContext>();
+
+            var app = builder.Build(); 
 
 
             //options.UseSqlServer(connectionString);
@@ -47,6 +51,8 @@ namespace ProyectoFinalLab
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.MapControllerRoute(
                 name: "default",
