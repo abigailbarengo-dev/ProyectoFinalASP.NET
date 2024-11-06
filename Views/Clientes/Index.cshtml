@@ -52,5 +52,18 @@
 
 
 <div class="pagination-container">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, buscar = ViewBag.buscar }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+{
+    UlElementClasses = new[] { "pagination", "justify-content-center" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" },
+    ActiveLiElementClass = "active",
+    LinkToFirstPageFormat = "Primera",
+    LinkToLastPageFormat = "Última",
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    Display = PagedListDisplayMode.Always
+})
 </div>

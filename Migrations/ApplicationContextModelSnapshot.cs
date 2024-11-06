@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ProyectoFinalLab.Servicios;
+using ProyectoFinalLab.Data;
 
 #nullable disable
 
@@ -34,7 +34,7 @@ namespace ProyectoFinalLab.Migrations
 
                     b.HasIndex("ClientesId");
 
-                    b.ToTable("CitaCliente");
+                    b.ToTable("CitaCliente", (string)null);
                 });
 
             modelBuilder.Entity("ClienteMascota", b =>
@@ -49,7 +49,7 @@ namespace ProyectoFinalLab.Migrations
 
                     b.HasIndex("MascotasId");
 
-                    b.ToTable("ClienteMascota");
+                    b.ToTable("ClienteMascota", (string)null);
                 });
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Cita", b =>
@@ -78,9 +78,13 @@ namespace ProyectoFinalLab.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Paciente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Cita");
+                    b.ToTable("Cita", (string)null);
                 });
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Cliente", b =>
@@ -113,7 +117,7 @@ namespace ProyectoFinalLab.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clientes");
+                    b.ToTable("Clientes", (string)null);
                 });
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Mascota", b =>
@@ -146,7 +150,7 @@ namespace ProyectoFinalLab.Migrations
 
                     b.HasIndex("CitaId");
 
-                    b.ToTable("Mascotas");
+                    b.ToTable("Mascotas", (string)null);
                 });
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Veterinario", b =>
@@ -172,7 +176,7 @@ namespace ProyectoFinalLab.Migrations
 
                     b.HasIndex("CitaId");
 
-                    b.ToTable("Veterinario");
+                    b.ToTable("Veterinario", (string)null);
                 });
 
             modelBuilder.Entity("CitaCliente", b =>

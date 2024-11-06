@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ProyectoFinalLab.Data;
 using ProyectoFinalLab.Models;
-using ProyectoFinalLab.Servicios;
 using X.PagedList.Extensions;
 
 namespace ProyectoFinalLab.Controllers
