@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProyectoFinalLab")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+31911fd5f6ac69874a69c1aa53cfda0944aa54f6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c26540ce041ba80ec9ee3a4e50e8bbe9c5252812")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProyectoFinalLab")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProyectoFinalLab")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

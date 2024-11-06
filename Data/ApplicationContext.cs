@@ -13,6 +13,8 @@ namespace ProyectoFinalLab.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<CitaMascota>().HasKey(x => new { x.CitaId, x.MascotaId });
             modelBuilder.Entity<CitaVeterinario>().HasKey(x => new { x.CitaId, x.VeterinarioId });
         }
