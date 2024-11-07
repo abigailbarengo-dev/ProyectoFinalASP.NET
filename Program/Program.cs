@@ -45,6 +45,7 @@ namespace ProyectoFinalLab.Program
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();

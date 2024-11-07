@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProyectoFinalLab.Data;
 
@@ -11,9 +12,11 @@ using ProyectoFinalLab.Data;
 namespace ProyectoFinalLab.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241107132220_Imagenes")]
+    partial class Imagenes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,36 @@ namespace ProyectoFinalLab.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CitaMascota", b =>
+                {
+                    b.Property<int>("CitasId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MascotasId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CitasId", "MascotasId");
+
+                    b.HasIndex("MascotasId");
+
+                    b.ToTable("CitaMascota");
+                });
+
+            modelBuilder.Entity("ClienteMascota", b =>
+                {
+                    b.Property<int>("ClientesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MascotasId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ClientesId", "MascotasId");
+
+                    b.HasIndex("MascotasId");
+
+                    b.ToTable("ClienteMascota");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -232,6 +265,9 @@ namespace ProyectoFinalLab.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -242,9 +278,6 @@ namespace ProyectoFinalLab.Migrations
                     b.Property<TimeOnly>("Hora")
                         .HasColumnType("time");
 
-                    b.Property<int>("MascotaId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Motivo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -253,21 +286,41 @@ namespace ProyectoFinalLab.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("VeterinarioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("clienteId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.ToTable("Cita");
+                });
+
+            modelBuilder.Entity("ProyectoFinalLab.Models.CitaMascota", b =>
+                {
+                    b.Property<int>("CitaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MascotaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CitaId", "MascotaId");
 
                     b.HasIndex("MascotaId");
 
+                    b.ToTable("citaMascotas");
+                });
+
+            modelBuilder.Entity("ProyectoFinalLab.Models.CitaVeterinario", b =>
+                {
+                    b.Property<int>("CitaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VeterinarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CitaId", "VeterinarioId");
+
                     b.HasIndex("VeterinarioId");
 
-                    b.HasIndex("clienteId");
-
-                    b.ToTable("Citas");
+                    b.ToTable("citaVeterinarios");
                 });
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Cliente", b =>
@@ -311,9 +364,6 @@ namespace ProyectoFinalLab.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Especie")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -332,13 +382,7 @@ namespace ProyectoFinalLab.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Sexo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ClienteId");
 
                     b.ToTable("Mascotas");
                 });
@@ -350,6 +394,9 @@ namespace ProyectoFinalLab.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CitaId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Especialidad")
                         .IsRequired()
@@ -364,7 +411,39 @@ namespace ProyectoFinalLab.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Veterinarios");
+                    b.HasIndex("CitaId");
+
+                    b.ToTable("Veterinario");
+                });
+
+            modelBuilder.Entity("CitaMascota", b =>
+                {
+                    b.HasOne("ProyectoFinalLab.Models.Cita", null)
+                        .WithMany()
+                        .HasForeignKey("CitasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProyectoFinalLab.Models.Mascota", null)
+                        .WithMany()
+                        .HasForeignKey("MascotasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ClienteMascota", b =>
+                {
+                    b.HasOne("ProyectoFinalLab.Models.Cliente", null)
+                        .WithMany()
+                        .HasForeignKey("ClientesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProyectoFinalLab.Models.Mascota", null)
+                        .WithMany()
+                        .HasForeignKey("MascotasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -420,35 +499,8 @@ namespace ProyectoFinalLab.Migrations
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Cita", b =>
                 {
-                    b.HasOne("ProyectoFinalLab.Models.Mascota", "mascota")
-                        .WithMany("Citas")
-                        .HasForeignKey("MascotaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProyectoFinalLab.Models.Veterinario", "Veterinario")
-                        .WithMany("Citas")
-                        .HasForeignKey("VeterinarioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ProyectoFinalLab.Models.Cliente", "cliente")
-                        .WithMany()
-                        .HasForeignKey("clienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Veterinario");
-
-                    b.Navigation("cliente");
-
-                    b.Navigation("mascota");
-                });
-
-            modelBuilder.Entity("ProyectoFinalLab.Models.Mascota", b =>
-                {
                     b.HasOne("ProyectoFinalLab.Models.Cliente", "Cliente")
-                        .WithMany("Mascotas")
+                        .WithMany("Citas")
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -456,17 +508,57 @@ namespace ProyectoFinalLab.Migrations
                     b.Navigation("Cliente");
                 });
 
-            modelBuilder.Entity("ProyectoFinalLab.Models.Cliente", b =>
+            modelBuilder.Entity("ProyectoFinalLab.Models.CitaMascota", b =>
                 {
-                    b.Navigation("Mascotas");
+                    b.HasOne("ProyectoFinalLab.Models.Cita", "Cita")
+                        .WithMany()
+                        .HasForeignKey("CitaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProyectoFinalLab.Models.Mascota", "Mascota")
+                        .WithMany()
+                        .HasForeignKey("MascotaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cita");
+
+                    b.Navigation("Mascota");
                 });
 
-            modelBuilder.Entity("ProyectoFinalLab.Models.Mascota", b =>
+            modelBuilder.Entity("ProyectoFinalLab.Models.CitaVeterinario", b =>
                 {
-                    b.Navigation("Citas");
+                    b.HasOne("ProyectoFinalLab.Models.Cita", "Cita")
+                        .WithMany()
+                        .HasForeignKey("CitaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProyectoFinalLab.Models.Veterinario", "Veterinario")
+                        .WithMany()
+                        .HasForeignKey("VeterinarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cita");
+
+                    b.Navigation("Veterinario");
                 });
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Veterinario", b =>
+                {
+                    b.HasOne("ProyectoFinalLab.Models.Cita", null)
+                        .WithMany("Veterinario")
+                        .HasForeignKey("CitaId");
+                });
+
+            modelBuilder.Entity("ProyectoFinalLab.Models.Cita", b =>
+                {
+                    b.Navigation("Veterinario");
+                });
+
+            modelBuilder.Entity("ProyectoFinalLab.Models.Cliente", b =>
                 {
                     b.Navigation("Citas");
                 });

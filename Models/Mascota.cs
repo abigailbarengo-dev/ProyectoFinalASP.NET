@@ -11,8 +11,7 @@ namespace ProyectoFinalLab.Models
 
 
         public virtual ICollection<Cliente> Clientes { get; set; }
-
         public virtual ICollection<Cita> Citas { get; set; }
-
+        public string? Imagen { get; set; }
     }
 }

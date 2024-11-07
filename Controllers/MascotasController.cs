@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,29 +17,63 @@ namespace ProyectoFinalLab.Controllers
     public class MascotasController : Controller
     {
         private readonly ApplicationContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public MascotasController(ApplicationContext context)
+        public MascotasController(ApplicationContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        // GET: Mascotas        // CAMBIOS EN INDEX MASCOTAS PARA FILTRO DE BUSQUEDA
-        public IActionResult Index(string buscar, int? page)
+        // GET: Mascotas      
+        public IActionResult Index(string buscar, int? page, string filtro)
         {
             int pageNumber = page ?? 1;
             int pageSize = 5;
 
             var mascotas = from mascota in _context.Mascotas select mascota;
 
-            if(!String.IsNullOrEmpty(buscar))
+            // Filtro por nombre si se proporciona
+            if (!String.IsNullOrEmpty(buscar))
             {
                 mascotas = mascotas.Where(s => s.Nombre!.Contains(buscar));
             }
 
-            var mascotasPaginadas = mascotas.OrderByDescending(s => s.Id).ToPagedList(pageNumber, pageSize);
+            // Lógica de ordenación basada en el filtro (fijarse en URL dice ascendente/descendente al cambiar orden)
+            switch (filtro)
+            {
+                case "NombreDescendente":
+                    mascotas = mascotas.OrderByDescending(m => m.Nombre);
+                    ViewData["FiltroNombre"] = "NombreAscendente"; 
+                    break;
+                case "RazaDescendente":
+                    mascotas = mascotas.OrderByDescending(m => m.Raza); 
+                    ViewData["FiltroRaza"] = "RazaAscendente"; 
+                    break;
+                case "RazaAscendente":
+                    mascotas = mascotas.OrderBy(m => m.Raza); 
+                    ViewData["FiltroRaza"] = "RazaDescendente";  
+                    break;
+                case "NombreAscendente":
+                    mascotas = mascotas.OrderBy(m => m.Nombre);
+                    ViewData["FiltroNombre"] = "NombreDescendente";
+                    break;
+                default:
+                    mascotas = mascotas.OrderBy(m => m.Nombre); 
+                    ViewData["FiltroNombre"] = "NombreDescendente";
+                    mascotas = mascotas.OrderBy(m => m.Raza); 
+                    ViewData["FiltroRaza"] = "RazaAscendente"; 
+                    break;
+            }
+
+           
+            var mascotasPaginadas = mascotas.ToPagedList(pageNumber, pageSize);
+
 
             return View(mascotasPaginadas);
         }
+
+
 
         // GET: Mascotas/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -63,14 +100,27 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // POST: Mascotas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Especie,Raza,FechaNacimiento")] Mascota mascota)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Especie,Raza,FechaNacimiento")] Mascota mascota, IFormFile imagen)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                // Guardar la imagen si existe
+                if (imagen != null && imagen.Length > 0)
+                {
+                    // Genera un nombre de archivo único
+                    string nombreArchivo = Guid.NewGuid().ToString() + Path.GetExtension(imagen.FileName);
+                    string ruta = Path.Combine(_webHostEnvironment.WebRootPath, "Fotos", nombreArchivo);
+
+                    // Guarda la imagen en la carpeta wwwroot/Fotos
+                    using (var fileStream = new FileStream(ruta, FileMode.Create))
+                    {
+                        await imagen.CopyToAsync(fileStream);
+                    }
+
+                }
+
                 _context.Add(mascota);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -95,11 +145,9 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // POST: Mascotas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Especie,Raza,FechaNacimiento")] Mascota mascota)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Especie,Raza,FechaNacimiento,ImagenUrl")] Mascota mascota, IFormFile imagen)
         {
             if (id != mascota.Id)
             {
@@ -110,6 +158,21 @@ namespace ProyectoFinalLab.Controllers
             {
                 try
                 {
+                    // Si hay una nueva imagen, la guarda y actualiza la propiedad ImagenUrl
+                    if (imagen != null && imagen.Length > 0)
+                    {
+                        string nombreArchivo = Guid.NewGuid().ToString() + Path.GetExtension(imagen.FileName);
+                        string ruta = Path.Combine(_webHostEnvironment.WebRootPath, "Fotos", nombreArchivo);
+
+                        using (var fileStream = new FileStream(ruta, FileMode.Create))
+                        {
+                            await imagen.CopyToAsync(fileStream);
+                        }
+
+                        // Actualiza la URL de la imagen
+                        mascota.Imagen = "/Fotos/" + nombreArchivo;
+                    }
+
                     _context.Update(mascota);
                     await _context.SaveChangesAsync();
                 }
@@ -155,6 +218,16 @@ namespace ProyectoFinalLab.Controllers
             var mascota = await _context.Mascotas.FindAsync(id);
             if (mascota != null)
             {
+                // Elimina el archivo de imagen si existe
+                if (!string.IsNullOrEmpty(mascota.Imagen))
+                {
+                    string ruta = Path.Combine(_webHostEnvironment.WebRootPath, mascota.Imagen.TrimStart('/'));
+                    if (System.IO.File.Exists(ruta))
+                    {
+                        System.IO.File.Delete(ruta);
+                    }
+                }
+
                 _context.Mascotas.Remove(mascota);
             }
 

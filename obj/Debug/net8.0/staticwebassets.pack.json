@@ -5,6 +5,18 @@
       "PackagePath": "staticwebassets\\ProyectoFinalLab.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\mascota1.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\mascota1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\mascota2.jpeg",
+      "PackagePath": "staticwebassets\\Fotos\\mascota2.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\mascota3.webp",
+      "PackagePath": "staticwebassets\\Fotos\\mascota3.webp"
+    },
+    {
       "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

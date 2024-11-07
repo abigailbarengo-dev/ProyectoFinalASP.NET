@@ -30,3 +30,9 @@ body {
     text-decoration: none;
     margin: 0 5px;
 }
+
+.footer {
+    padding: 2rem;
+    margin-top: 5rem;
+    text-align: center;
+}
