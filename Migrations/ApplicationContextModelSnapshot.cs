@@ -22,19 +22,19 @@ namespace ProyectoFinalLab.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CitaCliente", b =>
+            modelBuilder.Entity("CitaMascota", b =>
                 {
                     b.Property<int>("CitasId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ClientesId")
+                    b.Property<int>("MascotasId")
                         .HasColumnType("int");
 
-                    b.HasKey("CitasId", "ClientesId");
+                    b.HasKey("CitasId", "MascotasId");
 
-                    b.HasIndex("ClientesId");
+                    b.HasIndex("MascotasId");
 
-                    b.ToTable("CitaCliente", (string)null);
+                    b.ToTable("CitaMascota");
                 });
 
             modelBuilder.Entity("ClienteMascota", b =>
@@ -49,7 +49,209 @@ namespace ProyectoFinalLab.Migrations
 
                     b.HasIndex("MascotasId");
 
-                    b.ToTable("ClienteMascota", (string)null);
+                    b.ToTable("ClienteMascota");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Cita", b =>
@@ -59,6 +261,9 @@ namespace ProyectoFinalLab.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Estado")
                         .IsRequired()
@@ -78,13 +283,41 @@ namespace ProyectoFinalLab.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Paciente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Cita", (string)null);
+                    b.HasIndex("ClienteId");
+
+                    b.ToTable("Cita");
+                });
+
+            modelBuilder.Entity("ProyectoFinalLab.Models.CitaMascota", b =>
+                {
+                    b.Property<int>("CitaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MascotaId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CitaId", "MascotaId");
+
+                    b.HasIndex("MascotaId");
+
+                    b.ToTable("citaMascotas");
+                });
+
+            modelBuilder.Entity("ProyectoFinalLab.Models.CitaVeterinario", b =>
+                {
+                    b.Property<int>("CitaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VeterinarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CitaId", "VeterinarioId");
+
+                    b.HasIndex("VeterinarioId");
+
+                    b.ToTable("citaVeterinarios");
                 });
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Cliente", b =>
@@ -117,7 +350,7 @@ namespace ProyectoFinalLab.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clientes", (string)null);
+                    b.ToTable("Clientes");
                 });
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Mascota", b =>
@@ -127,9 +360,6 @@ namespace ProyectoFinalLab.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("CitaId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Especie")
                         .IsRequired()
@@ -148,9 +378,7 @@ namespace ProyectoFinalLab.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CitaId");
-
-                    b.ToTable("Mascotas", (string)null);
+                    b.ToTable("Mascotas");
                 });
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Veterinario", b =>
@@ -176,10 +404,10 @@ namespace ProyectoFinalLab.Migrations
 
                     b.HasIndex("CitaId");
 
-                    b.ToTable("Veterinario", (string)null);
+                    b.ToTable("Veterinario");
                 });
 
-            modelBuilder.Entity("CitaCliente", b =>
+            modelBuilder.Entity("CitaMascota", b =>
                 {
                     b.HasOne("ProyectoFinalLab.Models.Cita", null)
                         .WithMany()
@@ -187,9 +415,9 @@ namespace ProyectoFinalLab.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProyectoFinalLab.Models.Cliente", null)
+                    b.HasOne("ProyectoFinalLab.Models.Mascota", null)
                         .WithMany()
-                        .HasForeignKey("ClientesId")
+                        .HasForeignKey("MascotasId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -209,11 +437,104 @@ namespace ProyectoFinalLab.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProyectoFinalLab.Models.Mascota", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("ProyectoFinalLab.Models.Cita", null)
-                        .WithMany("Mascotas")
-                        .HasForeignKey("CitaId");
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProyectoFinalLab.Models.Cita", b =>
+                {
+                    b.HasOne("ProyectoFinalLab.Models.Cliente", "Cliente")
+                        .WithMany("Citas")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+                });
+
+            modelBuilder.Entity("ProyectoFinalLab.Models.CitaMascota", b =>
+                {
+                    b.HasOne("ProyectoFinalLab.Models.Cita", "Cita")
+                        .WithMany()
+                        .HasForeignKey("CitaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProyectoFinalLab.Models.Mascota", "Mascota")
+                        .WithMany()
+                        .HasForeignKey("MascotaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cita");
+
+                    b.Navigation("Mascota");
+                });
+
+            modelBuilder.Entity("ProyectoFinalLab.Models.CitaVeterinario", b =>
+                {
+                    b.HasOne("ProyectoFinalLab.Models.Cita", "Cita")
+                        .WithMany()
+                        .HasForeignKey("CitaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProyectoFinalLab.Models.Veterinario", "Veterinario")
+                        .WithMany()
+                        .HasForeignKey("VeterinarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cita");
+
+                    b.Navigation("Veterinario");
                 });
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Veterinario", b =>
@@ -225,9 +546,12 @@ namespace ProyectoFinalLab.Migrations
 
             modelBuilder.Entity("ProyectoFinalLab.Models.Cita", b =>
                 {
-                    b.Navigation("Mascotas");
-
                     b.Navigation("Veterinario");
+                });
+
+            modelBuilder.Entity("ProyectoFinalLab.Models.Cliente", b =>
+                {
+                    b.Navigation("Citas");
                 });
 #pragma warning restore 612, 618
         }

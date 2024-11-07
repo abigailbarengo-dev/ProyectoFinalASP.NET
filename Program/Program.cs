@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinalLab.Data;
 using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace ProyectoFinalLab.Program
 {
@@ -24,10 +25,9 @@ namespace ProyectoFinalLab.Program
             {
                 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
                 options.UseSqlServer(connectionString);
-
             });
 
-            //builder.Services.AddDefaultIdentity<ProyectoFinalLabUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ProyectoFinalLabContext>();
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationContext>();
 
             var app = builder.Build(); 
 
@@ -53,9 +53,12 @@ namespace ProyectoFinalLab.Program
 
             app.UseAuthentication();
 
+            app.MapRazorPages();
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}"
+                );
 
             app.Run();
         }
