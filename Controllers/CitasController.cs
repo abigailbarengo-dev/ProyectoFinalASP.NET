@@ -33,7 +33,7 @@ namespace ProyectoFinalLab.Controllers
             int pageNumber = page ?? 1;
             int pageSize = 5;
 
-            var turno = from citas in _context.Cita select citas;
+            var turno = from citas in _context.Citas select citas;
 
             if (!String.IsNullOrEmpty(buscar))
             {
@@ -53,7 +53,7 @@ namespace ProyectoFinalLab.Controllers
                 return NotFound();
             }
 
-            var cita = await _context.Cita
+            var cita = await _context.Citas
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cita == null)
             {
@@ -74,7 +74,7 @@ namespace ProyectoFinalLab.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Fecha,Hora,Motivo,Estado")] Cita cita)
+        public async Task<IActionResult> Create([Bind("Id,Fecha,Hora,Motivo,Estado")] Citas cita)
         {
             if (!ModelState.IsValid)
             {
@@ -93,7 +93,7 @@ namespace ProyectoFinalLab.Controllers
                 return NotFound();
             }
 
-            var cita = await _context.Cita.FindAsync(id);
+            var cita = await _context.Citas.FindAsync(id);
             if (cita == null)
             {
                 return NotFound();
@@ -106,7 +106,7 @@ namespace ProyectoFinalLab.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,Hora,Motivo,Estado")] Cita cita)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,Hora,Motivo,Estado")] Citas cita)
         {
             if (id != cita.Id)
             {
@@ -144,7 +144,7 @@ namespace ProyectoFinalLab.Controllers
                 return NotFound();
             }
 
-            var cita = await _context.Cita
+            var cita = await _context.Citas
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cita == null)
             {
@@ -159,10 +159,10 @@ namespace ProyectoFinalLab.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cita = await _context.Cita.FindAsync(id);
+            var cita = await _context.Citas.FindAsync(id);
             if (cita != null)
             {
-                _context.Cita.Remove(cita);
+                _context.Citas.Remove(cita);
             }
 
             await _context.SaveChangesAsync();
@@ -171,7 +171,7 @@ namespace ProyectoFinalLab.Controllers
 
         private bool CitaExists(int id)
         {
-            return _context.Cita.Any(e => e.Id == id);
+            return _context.Citas.Any(e => e.Id == id);
         }
     }
 }

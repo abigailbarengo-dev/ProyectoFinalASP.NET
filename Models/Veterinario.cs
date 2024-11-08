@@ -8,6 +8,7 @@
 
         public string? Imagen { get; set; }
 
-
+        // Relación uno a muchos: un Veterinario tiene muchas Citas
+        public virtual ICollection<Citas> Citas { get; set; }
     }
 }

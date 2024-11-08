@@ -7,7 +7,7 @@ namespace ProyectoFinalLab.Program
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -27,9 +27,12 @@ namespace ProyectoFinalLab.Program
                 options.UseSqlServer(connectionString);
             });
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<ApplicationContext>();
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationContext>();
 
-            var app = builder.Build(); 
+
+            var app = builder.Build();
 
 
             //options.UseSqlServer(connectionString);
@@ -50,16 +53,80 @@ namespace ProyectoFinalLab.Program
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.MapRazorPages();
 
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}"
-                );
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                var roles = new[] { "Admin", "Manager", "Usuario" };
+
+                foreach (var role in roles)
+                {
+                    if (!await roleManager.RoleExistsAsync(role)) await roleManager.CreateAsync(new IdentityRole(role));
+                }
+
+            }
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                string email = "admin@admin.com";
+                string pass = "Prueba123.";
+                if (await userManager.FindByEmailAsync(email) == null)
+                {
+                    var user = new IdentityUser();
+                    user.UserName = email;
+                    user.Email = email;
+
+                    await userManager.CreateAsync(user, pass);
+                    await userManager.AddToRoleAsync(user, "Admin");
+                }
+
+            }
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                string email = "manager@manager.com";
+                string pass = "Prueba123.";
+                if (await userManager.FindByEmailAsync(email) == null)
+                {
+                    var user = new IdentityUser();
+                    user.UserName = email;
+                    user.Email = email;
+
+                    await userManager.CreateAsync(user, pass);
+                    await userManager.AddToRoleAsync(user, "Manager");
+                }
+
+            }
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                string email = "JuanPerez@gmail.com";
+                string pass = "Prueba123.";
+                if (await userManager.FindByEmailAsync(email) == null)
+                {
+                    var user = new IdentityUser();
+                    user.UserName = email;
+                    user.Email = email;
+
+                    await userManager.CreateAsync(user, pass);
+                    await userManager.AddToRoleAsync(user, "Usuario");
+                }
+            }
 
             app.Run();
         }

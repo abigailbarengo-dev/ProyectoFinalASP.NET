@@ -14,7 +14,7 @@ namespace ProyectoFinalLab.Models
 
         public virtual ICollection<Mascota>? Mascotas { get; set; }
 
-        public virtual ICollection<Cita>? Citas { get; set; }
+        public virtual ICollection<Citas>? Citas { get; set; }
 
 
     }
