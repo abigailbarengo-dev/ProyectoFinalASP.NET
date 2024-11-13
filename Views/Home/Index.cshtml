@@ -1,13 +1,83 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Bienvenido a mi sistema de gestión de datos</h1>
-    <h3 style="margin-top: 3rem">Clínica veterinaria</h3>
+    <div>
+        <!-- Titulo Principal -->
+        <h1 class="display-4 font-weight-bold">Bienvenido a mi sistema de gestión de datos</h1>
+    </div>
 
-    <img src="~/Fotos/Clínicaveterinaria.png" alt="Mi imagen" style="margin-top: 3rem; width: 40rem" />
+    <!-- Condición según roles -->
+    @if (SignInManager.IsSignedIn(User))
+    {
+            <div class="alert mt-4">
+            @if (User.IsInRole("Admin"))
+            {
+                        <h1 class="text-danger">¡Hola Abi!</h1>
+            }
+            else if (User.IsInRole("Trabajadores"))
+            {
+                        <h1 class="text-danger">¡Hola colega!</h1>
+            }
+            </div>
+    }
+    else
+    {
+            <div class="alert alert-warning mt-4">
+                <h5 class="font-italic">Si se desean modificar datos delicados</h5>
+                <h1 class="font-weight-bold">Por favor, inicie sesión.</h1>
+            </div>
+    }
 
-
+    <!-- Imagen -->
+    <img src="~/Fotos/Clínicaveterinaria.png" alt="Mi imagen" style="margin-top: 3rem; width: 100%; max-width: 40rem;" class="rounded shadow-lg" />
 </div>
+
+<style>
+    /* Fondo general */
+    body {
+        background-color: #f4f7f6;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Título principal */
+    .display-4 {
+        font-size: 3rem;
+        font-weight: 600;
+    }
+
+    /* Títulos secundarios */
+    h3 {
+        font-size: 2rem;
+        color: #6c757d;
+    }
+
+    /* Estilos para las alertas */
+    .alert {
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    /* Estilo para la imagen */
+    img {
+        transition: transform 0.3s ease;
+    }
+
+    img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Ajuste de espaciado */
+    .mt-4 {
+        margin-top: 2rem;
+    }
+</style>
+
+
+
 

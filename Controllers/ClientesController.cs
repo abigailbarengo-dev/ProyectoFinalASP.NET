@@ -59,7 +59,7 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Clientes/Create
-        //[Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Create()
         {
             return View();
@@ -137,7 +137,7 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Clientes/Delete/5
-       // [Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

@@ -69,7 +69,7 @@ namespace ProyectoFinalLab.Program
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-                var roles = new[] { "Admin", "Manager", "Usuario" };
+                var roles = new[] { "Admin", "Jefe", "Trabajadores" };
 
                 foreach (var role in roles)
                 {
@@ -81,13 +81,14 @@ namespace ProyectoFinalLab.Program
             using (var scope = app.Services.CreateScope())
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-                string email = "admin@admin.com";
-                string pass = "Prueba123.";
+                string email = "pepe@gmail.com";
+                string pass = "Prueba123?";
                 if (await userManager.FindByEmailAsync(email) == null)
                 {
                     var user = new IdentityUser();
                     user.UserName = email;
-                    user.Email = email;
+                    user.Email = email;                         // CUENTA ADMIN
+
 
                     await userManager.CreateAsync(user, pass);
                     await userManager.AddToRoleAsync(user, "Admin");
@@ -98,33 +99,16 @@ namespace ProyectoFinalLab.Program
             using (var scope = app.Services.CreateScope())
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-                string email = "manager@manager.com";
-                string pass = "Prueba123.";
+                string email = "trabajador@gmail.com";
+                string pass = "Prueba123?";
                 if (await userManager.FindByEmailAsync(email) == null)
                 {
                     var user = new IdentityUser();
                     user.UserName = email;
-                    user.Email = email;
+                    user.Email = email;                     // CUENTA COLEGAS DE LA CLINICA / SECRETARIOS
 
                     await userManager.CreateAsync(user, pass);
-                    await userManager.AddToRoleAsync(user, "Manager");
-                }
-
-            }
-
-            using (var scope = app.Services.CreateScope())
-            {
-                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-                string email = "JuanPerez@gmail.com";
-                string pass = "Prueba123.";
-                if (await userManager.FindByEmailAsync(email) == null)
-                {
-                    var user = new IdentityUser();
-                    user.UserName = email;
-                    user.Email = email;
-
-                    await userManager.CreateAsync(user, pass);
-                    await userManager.AddToRoleAsync(user, "Usuario");
+                    await userManager.AddToRoleAsync(user, "Trabajadores");
                 }
             }
 

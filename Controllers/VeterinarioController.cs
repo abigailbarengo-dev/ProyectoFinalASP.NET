@@ -63,7 +63,7 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Veterinario/Create
-        //[Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager")]    // NO CAMBIAR NOMBRES DE ADMIN Y MANAGER
         public IActionResult Create()
         {
             return View();
@@ -164,7 +164,7 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Veterinario/Delete/5
-        //[Authorize(Roles = "Admin,Manager")]
+        [Authorize(Roles = "Admin,Manager")]    
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

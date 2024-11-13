@@ -307,7 +307,7 @@ namespace ProyectoFinalLab.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClienteId")
+                    b.Property<int?>("ClienteId")
                         .HasColumnType("int");
 
                     b.Property<string>("Especie")
@@ -447,9 +447,7 @@ namespace ProyectoFinalLab.Migrations
                 {
                     b.HasOne("ProyectoFinalLab.Models.Cliente", "Cliente")
                         .WithMany("Mascotas")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClienteId");
 
                     b.Navigation("Cliente");
                 });
