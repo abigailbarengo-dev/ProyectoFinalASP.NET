@@ -26,12 +26,15 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Mascotas      
-        public IActionResult Index(string buscar, int? page, string filtro)
+        public async Task<IActionResult> Index(string buscar, int? page, string filtro)
         {
             int pageNumber = page ?? 1;
             int pageSize = 5;
 
-            var mascotas = from mascota in _context.Mascotas select mascota;
+            var mascotas = _context.Mascotas
+            .Include(c => c.Cliente)  // Asegúrate de incluir Cliente
+            .AsQueryable();
+
 
             // Filtro por nombre si se proporciona
             if (!String.IsNullOrEmpty(buscar))
@@ -39,7 +42,7 @@ namespace ProyectoFinalLab.Controllers
                 mascotas = mascotas.Where(s => s.Nombre!.Contains(buscar));
             }
 
-            // Lógica de ordenación basada en el filtro (fijarse en URL dice ascendente/descendente al cambiar orden)
+            // Lógica de ordenación basada en el filtro
             switch (filtro)
             {
                 case "NombreDescendente":
@@ -61,17 +64,18 @@ namespace ProyectoFinalLab.Controllers
                 default:
                     mascotas = mascotas.OrderBy(m => m.Nombre);
                     ViewData["FiltroNombre"] = "NombreDescendente";
-                    mascotas = mascotas.OrderBy(m => m.Raza);
                     ViewData["FiltroRaza"] = "RazaAscendente";
                     break;
             }
 
-
-            var mascotasPaginadas = mascotas.ToPagedList(pageNumber, pageSize);
-
+            // Realizamos la consulta de forma asíncrona y luego aplicamos la paginación
+            var mascotasList = await mascotas.ToListAsync();
+            var mascotasPaginadas = mascotasList.ToPagedList(pageNumber, pageSize);
 
             return View(mascotasPaginadas);
         }
+
+
 
 
 
@@ -94,15 +98,17 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Mascotas/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["ClienteId"] = new SelectList(await _context.Clientes.ToListAsync(), "Id", "Nombre");
+
             return View();
         }
 
         // POST: Mascotas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Especie,Raza,FechaNacimiento, Hora, Sexo, Imagen")] Mascota mascota, IFormFile imagen)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Especie,Raza,FechaNacimiento, Imagen, Sexo, Hora, ClienteId")] Mascota mascota, IFormFile imagen)
         {
             var archivos = HttpContext.Request.Form.Files;
             if (archivos != null && archivos.Count > 0)
@@ -148,6 +154,8 @@ namespace ProyectoFinalLab.Controllers
                 return NotFound();
             }
 
+            ViewData["ClienteId"] = new SelectList(await _context.Clientes.ToListAsync(), "Id", "Nombre");
+
             var mascota = await _context.Mascotas.FindAsync(id);
             if (mascota == null)
             {
@@ -159,7 +167,7 @@ namespace ProyectoFinalLab.Controllers
         // POST: Mascotas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Especie,Raza,FechaNacimiento, Hora, Sexo, Imagen")] Mascota mascota, IFormFile imagen)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Especie,Raza,FechaNacimiento, Imagen, Sexo, Hora, ClienteId")] Mascota mascota, IFormFile imagen)
         {
             if (id != mascota.Id)
             {

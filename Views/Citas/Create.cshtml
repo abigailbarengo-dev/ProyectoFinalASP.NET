@@ -38,19 +38,16 @@
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cliente" class="control-label"></label>
-                <input asp-for="Cliente" class="form-control" placeholder="Ingrese el cliente" />
-                <span asp-validation-for="Cliente" class="text-danger"></span>
+                <label asp-for="ClienteId" class="control-label"></label>
+                <select asp-for="ClienteId" class="form-control" asp-items="ViewBag.ClienteId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="veterinario" class="control-label"></label>
-                <input asp-for="veterinario" class="form-control" placeholder="Ingrese el veterinario" />
-                <span asp-validation-for="veterinario" class="text-danger"></span>
+                <label asp-for="VeterinarioId" class="control-label"></label>
+                <select asp-for="VeterinarioId" class="form-control" asp-items="ViewBag.VeterinarioId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Mascotas" class="control-label"></label>
-                <input asp-for="Mascotas" class="form-control" placeholder="Ingrese mascota" />
-                <span asp-validation-for="Mascotas" class="text-danger"></span>
+                <label asp-for="MascotaId" class="control-label"></label>
+                <select asp-for="MascotaId" class="form-control" asp-items="ViewBag.MascotaId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />

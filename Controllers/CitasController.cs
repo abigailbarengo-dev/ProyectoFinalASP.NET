@@ -25,25 +25,32 @@ namespace ProyectoFinalLab.Controllers
             _context = context;
         }
 
-       
 
-    // GET: Citas
-    public IActionResult Index(string buscar, int? page)
+
+        // GET: Citas
+        public async Task<IActionResult> Index(string buscar, int? page)
         {
             int pageNumber = page ?? 1;
             int pageSize = 5;
 
-            var turno = from citas in _context.Citas select citas;
+            // Incluyendo las entidades relacionadas
+            var citas = _context.Citas
+                .Include(c => c.Cliente)
+                .Include(c => c.Veterinario)
+                .Include(c => c.Mascota)
+                .AsQueryable();
 
             if (!String.IsNullOrEmpty(buscar))
             {
-                turno = turno.Where(s => s.Estado!.Contains(buscar));
+                citas = citas.Where(s => s.Estado.Contains(buscar));
             }
 
-            var turnosPaginados = turno.OrderByDescending(s => s.Id).ToPagedList(pageNumber, pageSize);
+            var citaList = await citas.OrderByDescending(s => s.Id).ToListAsync();
+            var citasPaginadas = citaList.ToPagedList(pageNumber, pageSize);
 
-            return View(turnosPaginados);
+            return View(citasPaginadas);
         }
+
 
         // GET: Citas/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -64,17 +71,23 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Citas/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            // Obtener las listas de Veterinarios, Clientes y Mascotas de manera asincrónica
+            ViewData["VeterinarioId"] = new SelectList(await _context.Veterinario.ToListAsync(), "Id", "Nombre");
+            ViewData["ClienteId"] = new SelectList(await _context.Clientes.ToListAsync(), "Id", "Nombre");
+            ViewData["MascotaId"] = new SelectList(await _context.Mascotas.ToListAsync(), "Id", "Nombre");
+
             return View();
         }
+
 
         // POST: Citas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Fecha,Hora,Motivo,Estado")] Citas cita)
+        [ValidateAntiForgeryToken]                          // fijarse si nombrevet genera problmea
+        public async Task<IActionResult> Create([Bind("Id,Fecha,Hora,Motivo,Estado, NombreVet, ClienteId, MascotaId, VeterinarioId")] Citas cita)
         {
             if (!ModelState.IsValid)
             {
@@ -93,6 +106,10 @@ namespace ProyectoFinalLab.Controllers
                 return NotFound();
             }
 
+            ViewData["VeterinarioId"] = new SelectList(await _context.Veterinario.ToListAsync(), "Id", "Nombre");
+            ViewData["ClienteId"] = new SelectList(await _context.Clientes.ToListAsync(), "Id", "Nombre");
+            ViewData["MascotaId"] = new SelectList(await _context.Mascotas.ToListAsync(), "Id", "Nombre");
+
             var cita = await _context.Citas.FindAsync(id);
             if (cita == null)
             {
@@ -106,7 +123,7 @@ namespace ProyectoFinalLab.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,Hora,Motivo,Estado")] Citas cita)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,Hora,Motivo,Estado, NombreVet, ClienteId, MascotaId, VeterinarioId")] Citas cita)
         {
             if (id != cita.Id)
             {

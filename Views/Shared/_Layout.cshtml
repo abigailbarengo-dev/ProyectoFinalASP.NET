@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Lab4ProyectoFinal.styles.css" asp-append-version="true" />
+
 </head>
 <body>
     <header>
@@ -80,26 +81,38 @@
 </html>
 
 <style>
+    /* Estilo para la barra de navegación */
     .navbar {
         background-color: antiquewhite;
         box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
+        padding: 1rem 2rem; 
+        border-radius: 10px; 
+        font-size: 1.2rem; 
     }
 
+       
         .navbar .navbar-brand, .navbar-custom .nav-link {
             color: darkred !important;
-            font-weight: 500;
-            opacity: 0.6;
+            font-weight: 600; 
+            opacity: 0.8; 
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; 
         }
 
+           
             .navbar-custom .nav-link:hover {
                 color: darkred !important;
-                opacity: 2;
+                opacity: 1; 
+                transform: scale(1.1);
             }
 
+    
+    .navbar-nav .nav-item {
+        margin-right: 1.5rem;
+    }
 
+    /* Fondo de la página */
     body {
         background-color: seashell;
     }
-
-
 </style>
+

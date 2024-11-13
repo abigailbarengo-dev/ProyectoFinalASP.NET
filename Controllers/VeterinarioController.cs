@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,14 +16,16 @@ namespace ProyectoFinalLab.Controllers
     public class VeterinarioController : Controller
     {
         private readonly ApplicationContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public VeterinarioController(ApplicationContext context)
+        public VeterinarioController(ApplicationContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Veterinario
-        public IActionResult Index(string buscar, int? page)
+        public async Task<IActionResult> Index(string buscar, int? page)
         {
             int pageNumber = page ?? 1;
             int pageSize = 5;
@@ -34,10 +37,12 @@ namespace ProyectoFinalLab.Controllers
                 vet = vet.Where(s => s.Nombre!.Contains(buscar));
             }
 
-            var vetesPaginados = vet.OrderByDescending(s => s.Id).ToPagedList(pageNumber, pageSize);
+            var vetList = await vet.OrderByDescending(s => s.Id).ToListAsync();
+            var vetesPaginados = vetList.ToPagedList(pageNumber, pageSize);
 
             return View(vetesPaginados);
         }
+
 
         // GET: Veterinario/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -58,7 +63,7 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Veterinario/Create
-        [Authorize(Roles = "Admin,Manager")]
+        //[Authorize(Roles = "Admin,Manager")]
         public IActionResult Create()
         {
             return View();
@@ -69,16 +74,43 @@ namespace ProyectoFinalLab.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Especialidad")] Veterinario veterinario)
+        public async Task<IActionResult> Create([Bind("Id, Nombre, Especialidad, Imagen")] Veterinario veterinario, IFormFile imagen)
         {
-            if (ModelState.IsValid)
+            var archivos = HttpContext.Request.Form.Files;
+            if (archivos != null && archivos.Count > 0)
             {
-                _context.Add(veterinario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var archivoFoto = archivos[0];
+                if (archivoFoto.Length > 0)
+                {
+                    var pathDestino = Path.Combine(_webHostEnvironment.WebRootPath, "Fotos");
+
+                    var archivoDestino = Guid.NewGuid().ToString().Replace("-", "");
+                    var extension = Path.GetExtension(archivoFoto.FileName);
+                    archivoDestino += extension;
+
+                    using (var filestream = new FileStream(Path.Combine(pathDestino, archivoDestino), FileMode.Create))
+                    {
+                        archivoFoto.CopyTo(filestream);
+                        if (veterinario.Imagen != null)
+                        {
+                            var archivoViejo = Path.Combine(pathDestino, veterinario.Imagen!);
+                            if (System.IO.File.Exists(archivoViejo))
+                            {
+                                System.IO.File.Delete(archivoViejo);
+                            }
+                        }
+                        veterinario.Imagen = archivoDestino;
+                    }
+                }
             }
+
+            _context.Add(veterinario);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
             return View(veterinario);
         }
+
 
         // GET: Veterinario/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -101,7 +133,7 @@ namespace ProyectoFinalLab.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Especialidad")] Veterinario veterinario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Especialidad, Imagen")] Veterinario veterinario)
         {
             if (id != veterinario.Id)
             {
@@ -132,7 +164,7 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Veterinario/Delete/5
-        [Authorize(Roles = "Admin,Manager")]
+        //[Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

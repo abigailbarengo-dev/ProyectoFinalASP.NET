@@ -11,11 +11,7 @@ namespace ProyectoFinalLab.Models
         public string Mail { get; set; }
         public string Direccion { get; set; }
 
-
         public virtual ICollection<Mascota>? Mascotas { get; set; }
-
         public virtual ICollection<Citas>? Citas { get; set; }
-
-
     }
 }

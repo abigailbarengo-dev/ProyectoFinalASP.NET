@@ -15,7 +15,11 @@ namespace ProyectoFinalLab.Models
         public string? Sexo { get; set; }
         public string? Imagen { get; set; }
 
-        public virtual ICollection<Cliente> Clientes { get; set; }
-        public virtual ICollection<Citas> Citas { get; set; }
+        [Display(Name = "Cliente")]
+        public int? ClienteId { get; set; }
+        public Cliente? Cliente { get; set; }
+
+        public virtual ICollection<Citas>? Citas { get; set; }
+
     }
 }

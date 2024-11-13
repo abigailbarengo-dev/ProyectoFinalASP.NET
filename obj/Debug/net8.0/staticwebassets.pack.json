@@ -17,6 +17,18 @@
       "PackagePath": "staticwebassets\\Fotos\\Clínicaveterinaria.png"
     },
     {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\depositphotos_207663178-stock-photo-image-happy-young-man-standing.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\depositphotos_207663178-stock-photo-image-happy-young-man-standing.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\istockphoto-1821794375-612x612.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\istockphoto-1821794375-612x612.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\istockphoto-682897825-612x612.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\istockphoto-682897825-612x612.jpg"
+    },
+    {
       "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\mascota1.jpg",
       "PackagePath": "staticwebassets\\Fotos\\mascota1.jpg"
     },
@@ -31,6 +43,10 @@
     {
       "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\mascotas-perros-razas-caniche-416x236x80xX.jpg",
       "PackagePath": "staticwebassets\\Fotos\\mascotas-perros-razas-caniche-416x236x80xX.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\perico.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\perico.jpg"
     },
     {
       "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\css\\site.css",

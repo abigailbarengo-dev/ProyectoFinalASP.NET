@@ -22,19 +22,20 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Clientes
-        public IActionResult Index(string buscar, int? page)
+        public async Task<IActionResult> Index(string buscar, int? page)
         {
             int pageNumber = page ?? 1;
             int pageSize = 5;
 
-            var clientes = from cliente in _context.Clientes select cliente;
+            var cliente = from clientes in _context.Clientes select clientes;
 
             if (!String.IsNullOrEmpty(buscar))
             {
-                clientes = clientes.Where(s => s.Nombre!.Contains(buscar));
+                cliente = cliente.Where(s => s.Nombre!.Contains(buscar));
             }
 
-            var clientesPaginados = clientes.OrderByDescending(s => s.Id).ToPagedList(pageNumber, pageSize);
+            var clienteList = await cliente.OrderByDescending(s => s.Id).ToListAsync();
+            var clientesPaginados = clienteList.ToPagedList(pageNumber, pageSize);
 
             return View(clientesPaginados);
         }
@@ -58,7 +59,7 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Clientes/Create
-        [Authorize(Roles = "Admin,Manager")]
+        //[Authorize(Roles = "Admin,Manager")]
         public IActionResult Create()
         {
             return View();
@@ -71,14 +72,18 @@ namespace ProyectoFinalLab.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Telefono,Mail,Direccion")] Cliente cliente)
         {
-            if (!ModelState.IsValid)
+            // Si el modelo es válido, procedemos a agregar el cliente
+            if (ModelState.IsValid)
             {
-                _context.Add(cliente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.Add(cliente);  // Agregamos el cliente a la base de datos
+                await _context.SaveChangesAsync();  // Guardamos los cambios
+                return RedirectToAction(nameof(Index));  // Redirigimos al listado de clientes
             }
+
+            // Si el modelo no es válido, regresamos a la vista de Create con los errores
             return View(cliente);
         }
+
 
         // GET: Clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -132,7 +137,7 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Clientes/Delete/5
-        [Authorize(Roles = "Admin,Manager")]
+       // [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

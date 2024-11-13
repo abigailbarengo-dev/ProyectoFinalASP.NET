@@ -36,8 +36,9 @@
                 <td>@Html.DisplayFor(modelItem => item.Hora)</td>
                 <td>@Html.DisplayFor(modelItem => item.Motivo)</td>
                 <td>@Html.DisplayFor(modelItem => item.Estado)</td>
-                <td>@Html.DisplayFor(modelItem => item.veterinario)</td>
-                <td>@Html.DisplayFor(modelItem => item.Mascotas)</td>
+                    <td>@item.Veterinario?.Nombre</td>
+                <td>@Html.DisplayFor(modelItem => item.Mascota.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.Cliente.Nombre)</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning mx-1">Editar</a>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info mx-1">Detalles</a>

@@ -23,7 +23,6 @@
             <th>Telefono</th>
             <th>Mail</th>
             <th>Direccion</th>
-            <th>Mascotas</th>
             <th></th>
         </tr>
     </thead>
@@ -36,7 +35,6 @@
                 <td>@Html.DisplayFor(modelItem => item.Telefono)</td>
                 <td>@Html.DisplayFor(modelItem => item.Mail)</td>
                 <td>@Html.DisplayFor(modelItem => item.Direccion)</td>
-                <td>@Html.DisplayFor(modelItem => item.Mascotas)</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning mx-1">Editar datos</a>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info mx-1">Detalles</a>

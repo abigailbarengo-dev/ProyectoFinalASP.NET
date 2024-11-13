@@ -1,4 +1,6 @@
-﻿namespace ProyectoFinalLab.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProyectoFinalLab.Models
 {
     public class Citas
     {
@@ -8,15 +10,17 @@
         public string Motivo { get; set; }
         public string Estado { get; set; }
 
-        public string NombreVet {  get; set; }
+        [Display(Name = "Mascota")]
+        public int MascotaId { get; set; }
+        public Mascota? Mascota { get; set; }
 
-
-        public virtual ICollection<Mascota> Mascotas { get; set; }  
-        //public virtual ICollection<Veterinario> Veterinario { get; set; }
-        public virtual Cliente Cliente { get; set; }
+        [Display(Name = "Cliente")]
         public int ClienteId { get; set; }
+        public virtual Cliente Cliente { get; set; }
+
+        [Display(Name = "Veterinario")]
         public int VeterinarioId { get; set; }
-        public virtual Veterinario veterinario { get; set; }
+        public virtual Veterinario Veterinario { get; set; }
 
 
 
