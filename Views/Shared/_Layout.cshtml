@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,53 +7,112 @@
     <title>@ViewData["Title"] - ProyectoFinalLab</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ProyectoFinalLab.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Lab4ProyectoFinal.styles.css" asp-append-version="true" />
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProyectoFinalLab</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-box-seam"></i> ProyectoFinalLab
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Ingresar
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Clientes" asp-action="Create">Cliente</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Citas" asp-action="Create">Turno</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Veterinario" asp-action="Create">Profesional</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Mascotas" asp-action="Create">Mascota</a></li>
+
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Citas" asp-action="Index">Lista de citas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Mascotas" asp-action="Index">Mascotas/Pacientes</a>
-                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Registros
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Citas" asp-action="Index">Turnos</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Veterinario" asp-action="Index">Profesionales</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Mascotas" asp-action="Index">Mascotas</a></li>
+                            </ul>
+
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+
+    <div class="container my-5">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - ProyectoFinalLab - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - ProyectoFinalLab - Abigail Barengo</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
 </body>
 </html>
+
+<style>
+    /* Estilo para la barra de navegación */
+    .navbar {
+        background-color: antiquewhite;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
+        padding: 1rem 2rem; 
+        border-radius: 10px; 
+        font-size: 1.2rem; 
+    }
+
+       
+        .navbar .navbar-brand, .navbar-custom .nav-link {
+            color: darkred !important;
+            font-weight: 600; 
+            opacity: 0.8; 
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; 
+        }
+
+           
+            .navbar-custom .nav-link:hover {
+                color: darkred !important;
+                opacity: 1; 
+                transform: scale(1.1);
+            }
+
+    
+    .navbar-nav .nav-item {
+        margin-right: 1.5rem;
+    }
+
+    /* Fondo de la página */
+    body {
+        background-color: seashell;
+    }
+</style>
+

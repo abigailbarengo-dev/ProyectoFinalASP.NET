@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ProyectoFinalLab.Data;
 using ProyectoFinalLab.Models;
-using ProyectoFinalLab.Servicios;
+using X.PagedList.Extensions;
 
 namespace ProyectoFinalLab.Controllers
 {
@@ -20,9 +22,22 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Clientes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string buscar, int? page)
         {
-            return View(await _context.Clientes.ToListAsync());
+            int pageNumber = page ?? 1;
+            int pageSize = 5;
+
+            var cliente = from clientes in _context.Clientes select clientes;
+
+            if (!String.IsNullOrEmpty(buscar))
+            {
+                cliente = cliente.Where(s => s.Nombre!.Contains(buscar));
+            }
+
+            var clienteList = await cliente.OrderByDescending(s => s.Id).ToListAsync();
+            var clientesPaginados = clienteList.ToPagedList(pageNumber, pageSize);
+
+            return View(clientesPaginados);
         }
 
         // GET: Clientes/Details/5
@@ -44,6 +59,7 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Clientes/Create
+        [Authorize(Roles = "Admin,Manager")]
         public IActionResult Create()
         {
             return View();
@@ -56,14 +72,18 @@ namespace ProyectoFinalLab.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Telefono,Mail,Direccion")] Cliente cliente)
         {
+            // Si el modelo es válido, procedemos a agregar el cliente
             if (ModelState.IsValid)
             {
-                _context.Add(cliente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _context.Add(cliente);  // Agregamos el cliente a la base de datos
+                await _context.SaveChangesAsync();  // Guardamos los cambios
+                return RedirectToAction(nameof(Index));  // Redirigimos al listado de clientes
             }
+
+            // Si el modelo no es válido, regresamos a la vista de Create con los errores
             return View(cliente);
         }
+
 
         // GET: Clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -117,6 +137,7 @@ namespace ProyectoFinalLab.Controllers
         }
 
         // GET: Clientes/Delete/5
+        [Authorize(Roles = "Admin,Manager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

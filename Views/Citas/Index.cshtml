@@ -1,59 +1,73 @@
-﻿@model IEnumerable<ProyectoFinalLab.Models.Cita>
+﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<ProyectoFinalLab.Models.Citas>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Lista de citas</h1>
+<h1 class="my-4 text-center">Turnos</h1>
 
-<p>
-    <a asp-action="Create">Ingresar nueva cita</a>
-</p>
-<table class="table">
-    <thead>
+
+<form asp-controller="Citas" asp-action="Index" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="buscar" class="form-control" placeholder="Buscar por estado..." />
+        <button type="submit" class="btn btn-dark">Buscar</button>
+    </div>
+</form>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Fecha)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Hora)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Motivo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Veterinario)
-            </th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Motivo</th>
+            <th>Estado</th>
+            <th>Veterinario</th>
+            <th>Mascotas</th>
+            <th>Cliente</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hora)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Motivo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Veterinario)
-            </td>
-            <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Borrar turno</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                <td>@Html.DisplayFor(modelItem => item.Hora)</td>
+                <td>@Html.DisplayFor(modelItem => item.Motivo)</td>
+                <td>@Html.DisplayFor(modelItem => item.Estado)</td>
+                    <td>@item.Veterinario?.Nombre</td>
+                <td>@Html.DisplayFor(modelItem => item.Mascota.Nombre)</td>
+                <td>@Html.DisplayFor(modelItem => item.Cliente.Nombre)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning mx-1">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info mx-1">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger mx-1">Borrar</a>
+                    
+                </td>
+
+            </tr>
+        }
     </tbody>
 </table>
+
+
+<div class="pagination-container">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+{
+    UlElementClasses = new[] { "pagination", "justify-content-center" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" },
+    ActiveLiElementClass = "active",
+    LinkToFirstPageFormat = "Primera",
+    LinkToLastPageFormat = "Última",
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    Display = PagedListDisplayMode.Always
+})
+</div>
+
+
+

@@ -4,45 +4,84 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Detalles de cliente</h1>
 
 <div>
     <h4>Cliente</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Nombre)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Nombre)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Apellido)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Apellido)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Telefono)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Telefono)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Mail)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Mail)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Direccion)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Direccion)
         </dd>
     </dl>
 </div>
+
+<h4>Mascotas del Cliente</h4>
+@if (Model.Mascotas != null && Model.Mascotas.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Especie</th>
+                <th>Raza</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Hora</th>
+                <th>Sexo</th>
+                <th>Imagen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var mascota in Model.Mascotas)
+            {
+                <tr>
+                    <td>@mascota.Nombre</td>
+                    <td>@mascota.Especie</td>
+                    <td>@mascota.Raza</td>
+                    <td>@mascota.FechaNacimiento?.ToString("dd/MM/yyyy")</td>
+                    <td>@mascota.Imagen</td>
+                    <td>@mascota.Sexo</td>
+                    <td>@mascota.Hora</td>
+                    <td>@mascota.ClienteId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Este cliente no tiene mascotas registradas.</p>
+}
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" class="btn btn-danger" asp-route-id="@Model?.Id">Modificar</a> |
+    <a asp-action="Index" class="btn btn-secondary">Volver a lista</a>
 </div>
+

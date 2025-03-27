@@ -1,0 +1,54 @@
+﻿@model ProyectoFinalLab.Models.Veterinario
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Cambiar datos</h1>
+
+<h4>Veterinario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Edit Veterinario</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="control-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Especialidad" class="control-label"></label>
+                        <input asp-for="Especialidad" class="form-control" />
+                        <span asp-validation-for="Especialidad" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Imagen" class="form-label">Select Image</label>
+                        <input asp-for="Imagen" type="file" class="form-control" />
+                        <span asp-validation-for="Imagen" class="text-danger"></span>
+                        <div id="image-preview"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Guardar" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

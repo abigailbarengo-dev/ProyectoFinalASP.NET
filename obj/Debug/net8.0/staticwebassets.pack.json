@@ -5,6 +5,50 @@
       "PackagePath": "staticwebassets\\ProyectoFinalLab.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\1200px-Hamster_im_Gras.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\1200px-Hamster_im_Gras.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\Bull Terrier1.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\Bull Terrier1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\Clínicaveterinaria.png",
+      "PackagePath": "staticwebassets\\Fotos\\Clínicaveterinaria.png"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\depositphotos_207663178-stock-photo-image-happy-young-man-standing.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\depositphotos_207663178-stock-photo-image-happy-young-man-standing.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\istockphoto-1821794375-612x612.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\istockphoto-1821794375-612x612.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\istockphoto-682897825-612x612.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\istockphoto-682897825-612x612.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\mascota1.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\mascota1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\mascota2.jpeg",
+      "PackagePath": "staticwebassets\\Fotos\\mascota2.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\mascota3.webp",
+      "PackagePath": "staticwebassets\\Fotos\\mascota3.webp"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\mascotas-perros-razas-caniche-416x236x80xX.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\mascotas-perros-razas-caniche-416x236x80xX.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\Fotos\\perico.jpg",
+      "PackagePath": "staticwebassets\\Fotos\\perico.jpg"
+    },
+    {
       "Id": "C:\\Users\\Usuario\\Desktop\\ProyectoFinalLab4\\ProyectoFinalLab\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
